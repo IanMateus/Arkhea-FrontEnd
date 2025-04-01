@@ -1,0 +1,15 @@
+.Venda {
+    display: flex;
+    flex-direction: row;
+}
+
+.input_venda{
+    width: 50vw;
+}
+
+.output_venda{
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    align-items: center;
+}
