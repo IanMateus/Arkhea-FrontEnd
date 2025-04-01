@@ -1,7 +1,6 @@
 import './Layout.css'
 import React from 'react'
 import { Outlet, Link } from 'react-router'
-import Footer from './Footer'
 
 export default function Layout() {
     return(
@@ -15,6 +14,5 @@ export default function Layout() {
                 </Link>
             </nav>
             <Outlet />
-            <Footer />
         </div>
 )}

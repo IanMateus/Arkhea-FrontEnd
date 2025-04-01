@@ -1,15 +1,27 @@
 .Venda {
     display: flex;
     flex-direction: row;
+    flex-grow: 1;
 }
 
 .input_venda{
-    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .output_venda{
     display: flex;
     flex-direction: column;
-    width: 50vw;
+    flex-grow: 1;
     align-items: center;
+}
+
+.info_venda{
+    display: flex;
+    flex-direction: row;
+}
+
+.no_input{
+    background-color: lightgray;
 }

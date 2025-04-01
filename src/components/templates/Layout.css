@@ -1,6 +1,9 @@
 .menu-area {
     background-color: var(--bg-dark);
     padding: 20px 0 0px 0;
+    height: calc(100vh - 20px);
+    display: flex;
+    flex-direction: column;
 }
 
 .link {
