@@ -1,14 +1,17 @@
 import React from "react";
 import { Routes, Route } from "react-router";
 
-import Main from "../components/templates/Main";
+import Venda from "../components/templates/Venda"
 import Estoque from "../components/templates/Estoque";
 import testCrud from "../components/components/testCrud";
+import Layout from "../components/templates/Layout";
 
 export default props =>
     <Routes>
-        <Route exact path="/venda" element={<Main />} />
-        <Route path="/estoque" component={<Estoque />} />
-        <Route path='/users' component={testCrud} />
-        <Route from='*' to='/venda' />
+        <Route path="/" element={<Layout />}>
+            <Route path="venda" element={<Venda />} />
+            <Route path="estoque" element={<Estoque />} />
+            <Route path='users' component={testCrud} />
+            <Route from='*' to='/' />
+        </Route>    
     </Routes>
