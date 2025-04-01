@@ -1,0 +1,21 @@
+.menu-area {
+    background-color: var(--bg-dark);
+    padding: 20px 0 0px 0;
+}
+
+.link {
+    padding: 10px 40px 0 40px;
+    font-style: normal;
+    font-weight: 3000;
+}
+
+.menu a {
+    background-color: #a6afb1;
+    text-decoration: none;
+    color: black;
+    border: solid 1px;
+}
+
+.menu a:hover {
+    background: linear-gradient(135deg, #656d6e 0%, #616e6e 100%);
+}
