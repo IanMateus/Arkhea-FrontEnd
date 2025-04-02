@@ -1,37 +1,95 @@
-import React from "react";
+import React, { useEffect } from "react";
 
+import { useState } from 'react';
 import Header from "./Header";
+import Crud from "../functions/crud";
+import { Link } from "react-router";
 
 export default function Estoque() {
+
+    const [cod, setCode] = useState();
+    const [nome, setNome] = useState("");
+    const [preco, setPreco] = useState(-1);
+    const [quantidade, setQuantidade] = useState(-1);
+    const [produtos, setProdutos] = useState([])
+    const [carrinho, setCarrinho] = useState([])
+
+    function ler() {
+        fetch("/lerProduto")
+        .then(r => r.json())
+        .then(lista => setProdutos(lista))
+    }
+
+    function deletar(codigo) {
+        console.log("deletando...")
+        const config = {
+        method: "POST",
+        headers: {'Content-type': 'application/json'},
+        body: JSON.stringify({cod: codigo})
+        }
+        fetch("/deletarProduto",config).then(ler)
+    }
+
+    function renderTable() {
+        return (
+        <table className="table mt-4">
+            <thead>
+                <tr>
+                    <th>Cod</th>
+                    <th>Nome</th>
+                    <th>Preço</th>
+                    <th>Quantidade</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {renderRows()}
+            </tbody>
+        </table>
+        )
+    }
+
+    function renderRows() {
+        return produtos.map(produto => {
+            const props = {
+                cod: produto.cod,
+                nome: produto.nome,
+                preco: produto.preco,
+                quantidade: produto.quantidade
+            }
+            return (
+                <tr key={produto.cod}>
+                    <td>{produto.cod}</td>
+                    <td>{produto.nome}</td>
+                    <td>{produto.preco}</td>
+                    <td>{produto.quantidade}</td>
+                    <td>
+                        <button className="btn btn-warning">
+                            <Link to='/estoque/editProduto' state={{...props}}>
+                                <i className="fa fa-pencil"></i>
+                            </Link>
+                        </button>
+                        <button className="btn btn-danger ml-2"
+                            onClick={() => deletar(produto.cod)}>
+                            <i className="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            )
+        })
+    }
+
+    const lerBanco = useEffect(() => {
+        ler()
+    }, [])
+
     return (
         <div>
-            <h1>Estoque</h1>
-            <table className="table mt-4">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Preço</th>
-                        <th>Quantidade</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Maçã</td>
-                        <td>3.99</td>
-                        <td>10</td>
-                        <td>
-                            <button className="btn btn-warning"
-                                onClick={() => console.log("editar")}>
-                                <i className="fa fa-pencil">Pincel</i>
-                            </button>
-                            <button className="btn btn-danger ml-2"
-                                onClick={() => console.log("deletar")}>
-                                <i className="fa fa-trash">Lixeira</i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div>
+                <Header />
+            </div>
+            <div>
+                {renderTable()}
+            </div>
         </div>
-)}
+    )}

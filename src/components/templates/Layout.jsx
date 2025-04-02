@@ -7,10 +7,10 @@ export default function Layout() {
         <div className="menu-area">
             <nav className="menu">
                 <Link to="/venda">
-                    <i className="link link-venda">Venda</i>
+                    <i className="fa fa-venda"></i> Venda
                 </Link>
                 <Link to="/estoque">
-                    <i className="link link-estoque">Estoque</i>
+                    <i className="fa fa-estoque"></i> Estoque
                 </Link>
             </nav>
             <Outlet />

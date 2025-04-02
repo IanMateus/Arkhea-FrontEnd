@@ -1,10 +1,8 @@
 import React from "react";
 
-import logo from './logo.svg';
-import './App.css';
 import { useState } from 'react';
 
-function App() {
+function Crud() {
   const [cod, setCode] = useState();
   const [nome, setNome] = useState("");
   const [preco, setPreco] = useState(-1);
@@ -96,7 +94,6 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
           PRODUTOS
           {produtos.length > 0? 
@@ -143,4 +140,4 @@ function App() {
   );
 }
 
-export default App;
+export default Crud;
