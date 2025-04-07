@@ -12,6 +12,9 @@ export default function Estoque() {
     const [preco, setPreco] = useState(-1);
     const [quantidade, setQuantidade] = useState(-1);
     const [search, setSearch] = useState("");
+    const [searchField, setSearchField] = useState("nome");
+    const [classiField, setClassiField] = useState("nome");
+    const [asc, setAsc] = useState(true);
     const [produtos, setProdutos] = useState([])
     const [carrinho, setCarrinho] = useState([])
 
@@ -31,10 +34,40 @@ export default function Estoque() {
         fetch("/deletarProduto",config).then(ler)
     }
 
-    function filter(field, value){
-        return produtos.filter((v) => {
-            return v[field].toLowerCase().includes(value.toLowerCase()) 
-        })
+    function filter(value){
+        let v = value[searchField]
+        if(typeof(value[searchField]) === "string"){
+            v = value[searchField].toLowerCase()
+        } 
+
+        let s = search
+        if(typeof(search) === "string"){
+            s = search.toLowerCase()
+        }
+
+        return v.includes(s)
+    }
+
+    function classify(first, second){
+        let f = first[classiField]
+        if(typeof(first[classiField]) === "string"){
+            f = first[classiField].toLowerCase()
+        }
+
+        let s = second[classiField]
+        if(typeof(second[classiField]) === "string"){
+            s = second[classiField].toLowerCase()
+        }
+
+        return (f > s ? 1 : -1) * (asc ? 1 : -1)
+    }
+
+    function changeClassi(field){
+        if(classiField === field){
+            setAsc(!asc)
+        }else{
+            setClassiField(field)
+        }
     }
 
     function renderTable() {
@@ -42,10 +75,10 @@ export default function Estoque() {
         <table className="table mt-4">
             <thead>
                 <tr>
-                    <th>Cod</th>
-                    <th>Nome</th>
-                    <th>Preço</th>
-                    <th>Quantidade</th>
+                    <th onClick={() => {changeClassi("cod")}}>Cod</th>
+                    <th onClick={() => {changeClassi("nome")}}>Nome</th>
+                    <th onClick={() => {changeClassi("preco")}}>Preço</th>
+                    <th onClick={() => {changeClassi("quantidade")}}>Quantidade</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -57,7 +90,7 @@ export default function Estoque() {
     }
 
     function renderRows() {
-        return filter("nome",search).map(produto => {
+        return produtos.filter(filter).sort(classify).map(produto => {
             const props = {
                 cod: produto.cod,
                 nome: produto.nome,
