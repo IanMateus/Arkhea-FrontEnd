@@ -11,6 +11,7 @@ export default function Estoque() {
     const [nome, setNome] = useState("");
     const [preco, setPreco] = useState(-1);
     const [quantidade, setQuantidade] = useState(-1);
+    const [search, setSearch] = useState("");
     const [produtos, setProdutos] = useState([])
     const [carrinho, setCarrinho] = useState([])
 
@@ -23,11 +24,17 @@ export default function Estoque() {
     function deletar(codigo) {
         console.log("deletando...")
         const config = {
-        method: "POST",
-        headers: {'Content-type': 'application/json'},
-        body: JSON.stringify({cod: codigo})
+            method: "POST",
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({cod: codigo})
         }
         fetch("/deletarProduto",config).then(ler)
+    }
+
+    function filter(field, value){
+        return produtos.filter((v) => {
+            return v[field].toLowerCase().includes(value.toLowerCase()) 
+        })
     }
 
     function renderTable() {
@@ -50,7 +57,7 @@ export default function Estoque() {
     }
 
     function renderRows() {
-        return produtos.map(produto => {
+        return filter("nome",search).map(produto => {
             const props = {
                 cod: produto.cod,
                 nome: produto.nome,
@@ -86,7 +93,7 @@ export default function Estoque() {
     return (
         <div>
             <div>
-                <Header />
+                <Header filter={setSearch}/>
             </div>
             <div>
                 {renderTable()}
