@@ -23,6 +23,7 @@ export default function AddProduto() {
         body: JSON.stringify({cod: cod,nome: nome,preco: preco,quantidade: quantidade})
         }
         fetch("/criarProduto",config).then(ler)
+        window.location.href = "./"
     }
     function ler() {
         fetch("/lerProduto")
@@ -86,12 +87,12 @@ export default function AddProduto() {
                             onClick={registrar}>
                             Salvar
                         </button>
-
-                        <button className="btn btn-secondary ml-2">
-                            <Link to="/estoque">
+                        
+                        <Link to="/estoque">
+                            <button className="btn btn-secondary ml-2">
                                 Cancelar
-                            </Link>
-                        </button>
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </div>

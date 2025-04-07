@@ -67,6 +67,7 @@ export default function Estoque() {
             setAsc(!asc)
         }else{
             setClassiField(field)
+            setAsc(true)
         }
     }
 
