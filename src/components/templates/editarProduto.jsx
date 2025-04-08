@@ -1,5 +1,6 @@
 import React, { useEffect , useState} from "react";
 import { Link, useLocation } from "react-router";
+import './editarProduto.css'
 
 export default function EditProduto() {
     
@@ -20,6 +21,7 @@ export default function EditProduto() {
           body: JSON.stringify({cod: cod, produto: produto})
         }
         fetch("/editarProduto",config)
+        window.location.href = "./"
     }
 
     function setNome(nome) {

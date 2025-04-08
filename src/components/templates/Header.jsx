@@ -8,7 +8,7 @@ export default function Header({ filter }) {
 
     return(
         <header className="header">
-            <Link to="/estoque/addProduto">
+            <Link to="/estoque/criarProduto">
                 <button className="btn btn-primary">Adicionar Produto</button>
             </Link>
             <div className="row">

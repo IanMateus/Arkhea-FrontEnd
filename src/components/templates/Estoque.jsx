@@ -105,8 +105,18 @@ export default function Estoque() {
                     <td>{produto.preco}</td>
                     <td>{produto.quantidade}</td>
                     <td>
+                        <button id="btn-plus" className="btn btn-modify">
+                            <Link className="row_button plus" to='/estoque/adicionarProduto' state={{...props}}>
+                                <i className="fa fa-plus"></i>
+                            </Link>
+                        </button>
+                        <button id="btn-minus" className="btn btn-modify">
+                            <Link className="row_button minus" to='/estoque/subtrairProduto' state={{...props}}>
+                                <i className="fa fa-minus"></i>
+                            </Link>
+                        </button>
                         <button className="btn btn-warning">
-                            <Link to='/estoque/editProduto' state={{...props}}>
+                            <Link className="row_button pencil" to='/estoque/editarProduto' state={{...props}}>
                                 <i className="fa fa-pencil"></i>
                             </Link>
                         </button>
