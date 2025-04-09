@@ -1,29 +1,17 @@
 import React, { useEffect , useState} from "react";
-import { Link, useLocation } from "react-router";
+import { Link } from "react-router";
 
-export default function AdicionarProduto() {
+export default function AdicionarProduto(state) {
 
-    const [cod, setCode] = useState();
-    const [produto, setProduto] = useState({});
     const [qtdeAtual, setQtdeAtual] = useState("0");
-    const props = useLocation();
-    
-    useEffect(() => {
-        onMount()
-    },[])
-
-    function onMount() {
-        const {cod, ...produto} = props.state
-        setCode(cod)
-        setProduto(produto)
-    }
+    const produto = state.dados.produto
 
     function editar() {
         const novoProduto = {nome : produto.nome, preco : produto.preco, quantidade : parseFloat(qtdeAtual) + produto.quantidade}
         const config = {
           method: "POST",
           headers: {'Content-type': 'application/json'},
-          body: JSON.stringify({cod: cod, produto: novoProduto})
+          body: JSON.stringify({cod: state.dados.cod, produto: novoProduto})
         }
         fetch("/editarProduto",config)
         window.location.href = "./"
@@ -54,11 +42,11 @@ export default function AdicionarProduto() {
                             Salvar
                         </button>
 
-                        <button className="btn btn-secondary ml-2">
-                            <Link to="/estoque">
+                        <Link to="/estoque">
+                            <button className="btn btn-secondary ml-2">
                                 Cancelar
-                            </Link>
-                        </button>
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </div>

@@ -2,25 +2,29 @@ import React, { useEffect } from "react";
 import { Link } from "react-router";
 import { useState } from 'react';
 
-export default function AddProduto() {
+export default function CriarProduto(state) {
 
-    const [cod, setCode] = useState();
-    const [nome, setNome] = useState("");
-    const [preco, setPreco] = useState(-1);
-    const [quantidade, setQuantidade] = useState(-1);
     const [produtos, setProdutos] = useState([])
-    const [carrinho, setCarrinho] = useState([])
+    const produto = state.dados.produto
 
-    const produto = {}
-        if(nome !== "") produto.nome = nome
-        if(preco !== -1) produto.preco = preco
-        if(quantidade !== -1) produto.quantidade = quantidade
+    function setNome(nome) {
+        const novoProduto = {nome: nome, preco:produto.preco, quantidade:produto.quantidade}
+        state.setters.setProduto(novoProduto)
+    }
+    function setPreco(preco) {
+        const novoProduto = {nome: produto.nome, preco:preco, quantidade:produto.quantidade}
+        state.setters.setProduto(novoProduto)
+    }
+    function setQuantidade(quantidade) {
+        const novoProduto = {nome: produto.nome, preco:produto.preco, quantidade:quantidade}
+        state.setters.setProduto(novoProduto)
+    }
 
     function registrar() {
         const config = {
         method: "POST",
         headers: {'Content-type': 'application/json'},
-        body: JSON.stringify({cod: cod,nome: nome,preco: preco,quantidade: quantidade})
+        body: JSON.stringify({cod: state.dados.cod, nome:produto.nome, preco:produto.preco, quantidade:produto.quantidade})
         }
         fetch("/criarProduto",config).then(ler)
         window.location.href = "./"
@@ -31,11 +35,6 @@ export default function AddProduto() {
         .then(lista => setProdutos(lista))
     }
 
-    function getProduto() {
-        
-        return produto
-    }
-
     return (
         <div className="form">
                 <div className="colummn">
@@ -44,7 +43,7 @@ export default function AddProduto() {
                             <label>Codigo</label>
                             <input type="text" className="form-control"
                                 name="cod"
-                                onChange={(e) => setCode(e.target.value)}
+                                onChange={(e) => state.setters.setCode(e.target.value)}
                                 placeholder="Digite o código..." />
                         </div>
                     </div>

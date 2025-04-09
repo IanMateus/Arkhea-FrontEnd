@@ -2,21 +2,21 @@ import React, { useEffect } from "react";
 
 import { useState } from 'react';
 import Header from "./Header";
-import Crud from "../functions/crud";
 import { Link } from "react-router";
 
-export default function Estoque() {
+export default function Estoque(state) {
 
-    const [cod, setCode] = useState();
-    const [nome, setNome] = useState("");
-    const [preco, setPreco] = useState(-1);
-    const [quantidade, setQuantidade] = useState(-1);
     const [search, setSearch] = useState("");
     const [searchField, setSearchField] = useState("nome");
     const [classiField, setClassiField] = useState("nome");
     const [asc, setAsc] = useState(true);
     const [produtos, setProdutos] = useState([])
-    const [carrinho, setCarrinho] = useState([])
+
+    function setEstados(produtoInteiro){
+        const {cod, ...produto} = produtoInteiro
+        state.setters.setCod(cod)
+        state.setters.setProduto(produto)
+    }
 
     function ler() {
         fetch("/lerProduto")
@@ -92,12 +92,6 @@ export default function Estoque() {
 
     function renderRows() {
         return produtos.filter(filter).sort(classify).map(produto => {
-            const props = {
-                cod: produto.cod,
-                nome: produto.nome,
-                preco: produto.preco,
-                quantidade: produto.quantidade
-            }
             return (
                 <tr key={produto.cod}>
                     <td>{produto.cod}</td>
@@ -105,18 +99,18 @@ export default function Estoque() {
                     <td>{produto.preco}</td>
                     <td>{produto.quantidade}</td>
                     <td>
-                        <button id="btn-plus" className="btn btn-modify">
-                            <Link className="row_button plus" to='/estoque/adicionarProduto' state={{...props}}>
+                        <button id="btn-plus" className="btn btn-modify" onClick={() => {setEstados(produto)}}>
+                            <Link className="row_button plus" to='/estoque/adicionarProduto'>
                                 <i className="fa fa-plus"></i>
                             </Link>
                         </button>
-                        <button id="btn-minus" className="btn btn-modify">
-                            <Link className="row_button minus" to='/estoque/subtrairProduto' state={{...props}}>
+                        <button id="btn-minus" className="btn btn-modify" onClick={() => {setEstados(produto)}}>
+                            <Link className="row_button minus" to='/estoque/subtrairProduto'>
                                 <i className="fa fa-minus"></i>
                             </Link>
                         </button>
-                        <button className="btn btn-warning">
-                            <Link className="row_button pencil" to='/estoque/editarProduto' state={{...props}}>
+                        <button className="btn btn-warning" onClick={() => {setEstados(produto)}}>
+                            <Link className="row_button pencil" to='/estoque/editarProduto'>
                                 <i className="fa fa-pencil"></i>
                             </Link>
                         </button>
