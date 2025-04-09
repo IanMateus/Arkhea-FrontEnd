@@ -38,25 +38,45 @@ function Venda() {
     }
 
     function aplicar(){
-        const novoProd =
-        {
-          cod: selecionado.cod,
-          nome: selecionado.nome,
-          preco: selecionado.preco,
-          desconto: desconto,
-          quantidade: quantidade
+        const config = {
+            method: "POST",
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({cod: parseInt(selecionado.cod)})
         }
-
-        if(carrinho.find((produto) => produto.cod === selecionado.cod) === undefined){
-            setCarrinho(carrinho.concat(novoProd))
-        }else{
-            setCarrinho(carrinho.map((produto) => {
-                if(produto.cod === selecionado.cod){
-                    return novoProd
+        fetch("/buscarProduto",config)
+            .then(r => {
+                if(r.status === 200){
+                    return r.json()
                 }
-                return produto
-            }))
-        }
+                return undefined
+            })
+            .then(prodBanco => {
+                if(prodBanco.quantidade <= quantidade){
+                    if(!window.confirm("Não tem a quantia desejada do produto em estoque, adicionar ao carrinho mesmo assim?")) return
+                }
+                
+                const novoProd =
+                {
+                  cod: selecionado.cod,
+                  nome: selecionado.nome,
+                  preco: selecionado.preco,
+                  desconto: desconto,
+                  quantidade: quantidade
+                }
+        
+                if(carrinho.find((produto) => produto.cod === selecionado.cod) === undefined){
+                    setCarrinho(carrinho.concat(novoProd))
+                }else{
+                    setCarrinho(carrinho.map((produto) => {
+                        if(produto.cod === selecionado.cod){
+                            return novoProd
+                        }
+                        return produto
+                    }))
+                }
+            })
+
+        
         
     }
 
