@@ -14,8 +14,23 @@ export default function App() {
     const dados = { cod: cod, produto: produto };
     const setters = { setCod: setCod, setProduto: setProduto };
 
+    const [errorModal, setErrorModal] = useState(false);
+    const [errorName, setErrorName] = useState("Mensagem de erro");
+    const [errorMessage, setErrorMessage] = useState("Algo deu errado, contate o profissional especializado");
+    const [errorOnConfirm, setErrorOnConfirm] = useState(() => () => {})
+    const [errorOnCancel, setErrorOnCancel] = useState(() => () => {})
+
     return (
     <BrowserRouter>
-        <Routes dados={dados} setters={setters}/>
+        <Routes dados={dados} setters={setters} 
+            error_state={
+                {  
+                active: errorModal, setActive: setErrorModal,
+                name: errorName, setName: setErrorName,
+                message: errorMessage, setMessage: setErrorMessage,
+                onConfirm: errorOnConfirm, setOnConfirm: setErrorOnConfirm,
+                onCancel: errorOnCancel, setOnCancel: setErrorOnCancel,
+                }
+            }/>
     </BrowserRouter>
 )}

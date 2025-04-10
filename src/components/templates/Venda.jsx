@@ -1,7 +1,9 @@
+import { Button, Modal } from 'react-bootstrap';
 import './Venda.css'
 import { useEffect, useState } from 'react';
+import Error_Modal from './Error_Modal';
 
-function Venda() {
+function Venda(state) {
     const [selecionado, setSelecionado] = useState({})
     const [carrinho, setCarrinho] = useState([])
 
@@ -52,32 +54,36 @@ function Venda() {
             })
             .then(prodBanco => {
                 if(prodBanco.quantidade <= quantidade){
-                    if(!window.confirm("Não tem a quantia desejada do produto em estoque, adicionar ao carrinho mesmo assim?")) return
+                    state.error_state.setName("Falta de produto no estoque")
+                    state.error_state.setMessage("O estoque não tem a quantia de item pedida, continuar mesmo assim?")
+                    state.error_state.setOnConfirm(() => add_carrinho)
+                    state.error_state.setActive(true)
+                    return
                 }
-                
-                const novoProd =
-                {
-                  cod: selecionado.cod,
-                  nome: selecionado.nome,
-                  preco: selecionado.preco,
-                  desconto: desconto,
-                  quantidade: quantidade
-                }
-        
-                if(carrinho.find((produto) => produto.cod === selecionado.cod) === undefined){
-                    setCarrinho(carrinho.concat(novoProd))
-                }else{
-                    setCarrinho(carrinho.map((produto) => {
-                        if(produto.cod === selecionado.cod){
-                            return novoProd
-                        }
-                        return produto
-                    }))
-                }
+                add_carrinho()
             })
+    }
 
-        
-        
+    function add_carrinho(){
+        const novoProd =
+            {
+            cod: selecionado.cod,
+            nome: selecionado.nome,
+            preco: selecionado.preco,
+            desconto: desconto,
+            quantidade: quantidade
+            }
+
+        if(carrinho.find((produto) => produto.cod === selecionado.cod) === undefined){
+            setCarrinho(carrinho.concat(novoProd))
+        }else{
+            setCarrinho(carrinho.map((produto) => {
+                if(produto.cod === selecionado.cod){
+                    return novoProd
+                }
+                return produto
+            }))
+        }
     }
 
     function deletar(){
@@ -208,6 +214,7 @@ function Venda() {
                     <button onClick={finalizar}>Finalizar</button>
                 </div>
             </div>}
+            <Error_Modal error_state = {state.error_state}/>
         </div>
 )}
 

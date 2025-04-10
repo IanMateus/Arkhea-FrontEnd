@@ -12,7 +12,7 @@ import SubtrairProduto from "../components/templates/subtrairProduto"
 export default (state) =>
     <Routes>
         <Route path="/" element={<Layout />}>
-            <Route path="venda" element={<Venda />} />
+            <Route path="venda" element={<Venda error_state = {state.error_state}/>} />
             <Route path="estoque" element={<Estoque dados={state.dados} setters={state.setters}/>} />
             <Route path='estoque/editarProduto' element={<EditarProduto dados={state.dados} setters={state.setters}/>} />
             <Route path='estoque/criarProduto' element={<CriarProduto dados={state.dados} setters={state.setters}/>} />
